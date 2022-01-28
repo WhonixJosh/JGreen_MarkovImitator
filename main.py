@@ -2,12 +2,8 @@
 import random
 from sys import prefix
 
-
 def generateText(nprefix, table):
-    # TODO: using markov chain table generate 100 to 200 word text box If there are multiple possible words, one is chosen at random to
-    # append to the output. Each time a word is chosen, the prefix is updated by removing the first word and
-    # adding the chosen word. The process continues until the end marker is appended to the output, as at
-    # the end of the sample, or until a pre-determined number of words are generated
+
     generated_text = ""
 
     for key, value in table.items():
