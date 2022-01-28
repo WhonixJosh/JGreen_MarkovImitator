@@ -76,7 +76,7 @@ while True:
     else:
         print("Invalid option, try again\n")
 
-print("Current available texts are: \n\n AdventuresofHuckleberryFinn.txt \n\n TheSoulsofBlackFolk.txt \n")
+print("Current available texts are:*NOTE THESE ARE PLACEHOLDERS- OTHER FILES MAY BE USED IN DIRECTORY* \n\n AdventuresofHuckleberryFinn.txt \n\n TheSoulsofBlackFolk.txt \n")
 
 while True:
     try:
