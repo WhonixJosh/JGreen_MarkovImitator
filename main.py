@@ -2,6 +2,7 @@
 import random
 from sys import prefix
 
+
 def generateText(nprefix, table):
 
     generated_text = ""
@@ -10,47 +11,50 @@ def generateText(nprefix, table):
         if nprefix == 1:
             generated_text += key[0]+" " + \
                 value[random.randint(0, len(value)-1)]+" "
-        elif nprefix == 2:
-            generated_text += value[random.randint(
-                0, len(value)-1)]+" " + key[1] + " "
-        elif nprefix == 3:
-            generated_text += value[random.randint(
-                0, len(value)-1)]+" " + key[1] + " " + key[2]+" "
+        else:
+            generated_text += " ".join(key)+" "+  value[random.randint(0, len(value)-1)]+" "
 
     print(generated_text)
 
 
-def createBigramMap(nprefix, filename):
+def createbigramMap(nprefix, filename):
 
     file_eof = True
-    bigrammap = {}
-    prefix = ""
+    bigramMap = {}
+    prefix = []
     keytoenter = ""
+
     while file_eof:
 
         file_line = filename.readline()
+
         if not file_line:
             file_eof = False
         words = file_line.split()
-        i = 0
 
+        i = 0
+        k = 1
         while i < len(words)-nprefix:
 
-            if nprefix == 2:
-                prefix = words[i]+" "+words[i+1]
-            elif nprefix == 3:
-                prefix = words[i]+" "+words[i+1]+" "+words[i+2]
-            elif nprefix == 1:
-                prefix = words[i]
+            prefix.append(words[i])
 
-            keytoenter = tuple(prefix.split(" "))
-            if keytoenter not in bigrammap.keys():
-                bigrammap[keytoenter] = [words[i+nprefix]]
+            if nprefix > 1:
+
+                while len(prefix) < nprefix:
+                    prefix.append(words[i + k])
+                    k += 1
+            keytoenter = tuple(prefix)
+
+            if keytoenter not in bigramMap.keys():
+                bigramMap[keytoenter] = [words[i+nprefix]]
             else:
-                bigrammap[keytoenter].append(words[i+nprefix])
+                bigramMap[keytoenter].append(words[i+nprefix])
+            prefix = []
+            k = 1
             i += 1
+
     filename.close()
-    return bigrammap
+    return bigramMap
 
 
 prefix_length = 0
@@ -58,22 +62,13 @@ prefix_length = 0
 print("First Specificy length of prefix for Makrov Imitator\n")
 
 while True:
-    print('1) for length of 1\n')
-    print('2) for length of 2\n')
-    print('3) for length of 3\n')
 
-    choice = input('Please enter the length of the prefix:\n')
-
-    if choice == "1":
-        prefix_length = 1
-        break
-    elif choice == "2":
-        prefix_length = 2
-        break
-    elif choice == "3":
-        prefix_length = 3
-        break
-    else:
+    try:
+        choice = int(input('Please enter the length of the prefix:\n'))
+        if choice <= 5:
+            prefix_length = choice
+            break
+    except:
         print("Invalid option, try again\n")
 
 print("Current available texts are:*NOTE THESE ARE PLACEHOLDERS- OTHER FILES MAY BE USED IN DIRECTORY* \n\n AdventuresofHuckleberryFinn.txt \n\n TheSoulsofBlackFolk.txt \n")
@@ -85,7 +80,7 @@ while True:
         break
     except FileNotFoundError:
         print("Oops! No valid file with that name was found. Try again...")
-m_table = createBigramMap(prefix_length, file_text)
+m_table = createbigramMap(prefix_length, file_text)
 print("Reading in: "+text+"...")
-
+print(m_table)
 generateText(prefix_length, m_table)
