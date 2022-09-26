@@ -2,7 +2,6 @@
 import random
 from sys import prefix
 
-
 def generateText(nprefix, table):
 
     generated_text = ""
